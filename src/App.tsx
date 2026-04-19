@@ -1,10 +1,7 @@
-import { useState } from 'react'
 import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
       <header>
