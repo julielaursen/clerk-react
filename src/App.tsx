@@ -1,10 +1,12 @@
 import { useAuth, UserButton } from '@clerk/react'
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import CustomSignUp from './components/CustomSignUp'
 import CustomSignIn from './components/CustomSignIn'
+import SsoCallback from './pages/SsoCallback'
 import { useState } from 'react'
 
-function App() {
+function Home() {
   const { isSignedIn } = useAuth()
   const [showSignUp, setShowSignUp] = useState(true)
 
@@ -25,7 +27,7 @@ function App() {
   return (
     <>
       <header style={{ padding: '1rem', textAlign: 'center' }}>
-        <h1>Clerk Custom Sign Up Flow</h1>
+        <h1>Julie's Authentication Project</h1>
       </header>
       <main>
         {showSignUp ? (
@@ -73,6 +75,15 @@ function App() {
         )}
       </main>
     </>
+  )
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/sso-callback" element={<SsoCallback />} />
+    </Routes>
   )
 }
 

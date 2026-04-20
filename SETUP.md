@@ -21,6 +21,11 @@ This project demonstrates a custom authentication flow using Clerk 3 (v6.x) hook
    - Enable **Email address**
    - Enable **Password**
    - Under **Verification**, make sure **Email verification code** is enabled
+   
+   **For Google OAuth:**
+   - Navigate to **User & Authentication** → **Social connections**
+   - Enable **Google**
+   - Follow the instructions to set up Google OAuth credentials (or use Clerk's development keys for testing)
 
 4. **Create your `.env` file:**
    ```bash
@@ -41,35 +46,51 @@ This project demonstrates a custom authentication flow using Clerk 3 (v6.x) hook
 
 ### CustomSignUp Component
 - Custom sign-up form with email, password, first name, and last name
+- **Google OAuth "Continue with Google" button**
 - Email verification flow with code verification
 - Uses Clerk 3 hooks: `useSignUp()`
 - Includes proper error handling and loading states
 
 ### CustomSignIn Component  
 - Custom sign-in form with email and password
+- **Google OAuth "Continue with Google" button**
 - Support for MFA and client trust verification
 - Uses Clerk 3 hooks: `useSignIn()`
 - Includes proper error handling and loading states
 
+### SsoCallback Page
+- Handles OAuth redirects from Google and other providers
+- Automatically completes the authentication flow
+- Shows loading state while processing
+
 ## Key Features
 
 - ✅ Email/password authentication
+- ✅ **Google OAuth sign-in/sign-up**
 - ✅ Email verification with code
 - ✅ Custom UI instead of Clerk's prebuilt components
 - ✅ Proper error handling
 - ✅ Loading states
 - ✅ Toggle between sign-up and sign-in
 - ✅ Full TypeScript support
+- ✅ Client-side routing with React Router
 
 ## Clerk 3 (v6.x) API Changes
 
 This project uses the new Clerk 3 API which introduced significant changes:
 
+**Email/Password Authentication:**
 - `signUp.password()` instead of `signUp.create()`
 - `signUp.verifications.sendEmailCode()` instead of `signUp.prepareEmailAddressVerification()`
 - `signUp.verifications.verifyEmailCode()` instead of `signUp.attemptEmailAddressVerification()`
 - `signUp.finalize()` instead of `setActive()`
 - Similar changes for `signIn.password()` and `signIn.finalize()`
+
+**OAuth Authentication:**
+- `signUp.sso({ strategy: 'oauth_google' })` for OAuth sign-up
+- `signIn.sso({ strategy: 'oauth_google' })` for OAuth sign-in
+- Requires `redirectCallbackUrl` for handling the OAuth callback
+- Requires `redirectUrl` for final redirect after authentication
 
 ## Learn More
 
