@@ -243,8 +243,9 @@ function Home() {
       <main>
         {showSignUp ? (
           <>
-            <CustomSignUp />
-            <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+            {/* <CustomSignUp /> */}
+            <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+              <p style={{ fontSize: '1.2rem', color: '#6b7280' }}>Sign up form hidden for now</p>
               <p>
                 Already have an account?{' '}
                 <button
