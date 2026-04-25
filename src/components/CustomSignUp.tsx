@@ -12,7 +12,11 @@ export default function CustomSignUp() {
 
   // Handle Google OAuth sign-up
   const handleGoogleSignUp = async () => {
-    if (!signUp) return
+    if (!signUp) {
+      alert('⚠️ Clerk is not initialized! Please add your VITE_CLERK_PUBLISHABLE_KEY to the .env file')
+      console.error('Clerk not initialized. Check your .env file has a valid VITE_CLERK_PUBLISHABLE_KEY')
+      return
+    }
 
     const { error } = await signUp.sso({
       strategy: 'oauth_google',

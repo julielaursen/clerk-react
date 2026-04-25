@@ -7,9 +7,34 @@ import SsoCallback from './pages/SsoCallback'
 import { useState } from 'react'
 
 function Home() {
-  const { isSignedIn } = useAuth()
+  const {getToken, isSignedIn } = useAuth()
   const [showSignUp, setShowSignUp] = useState(true)
+  const [userData, setUserData] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
 
+  const fetchProtectedData = async () => {
+    try {
+      setLoading(true)
+      // Get the session token from Clerk
+      const token = await getToken();
+      
+      // Make request to your Express backend
+      const response = await fetch('http://localhost:3000/protected', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      const data = await response.json();
+      console.log('Data from backend:', data);
+      setUserData(data)
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false)
+    }
+  };
+  
   if (isSignedIn) {
     return (
       <>
@@ -19,6 +44,31 @@ function Home() {
         </header>
         <main style={{ padding: '2rem' }}>
           <p>You are signed in!</p>
+          
+          <button 
+            onClick={fetchProtectedData}
+            disabled={loading}
+            style={{
+              marginTop: '1rem',
+              padding: '0.5rem 1rem',
+              background: '#4f46e5',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: loading ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {loading ? 'Loading...' : 'Fetch Protected Data from Backend'}
+          </button>
+
+          {userData && (
+            <div style={{ marginTop: '1rem', padding: '1rem', background: '#f3f4f6', borderRadius: '4px' }}>
+              <h3>User Data from Backend:</h3>
+              <pre style={{ overflow: 'auto' }}>
+                {JSON.stringify(userData, null, 2)}
+              </pre>
+            </div>
+          )}
         </main>
       </>
     )

@@ -8,7 +8,11 @@ export default function CustomSignIn() {
 
   // Handle Google OAuth sign-in
   const handleGoogleSignIn = async () => {
-    if (!signIn) return
+    if (!signIn) {
+      alert('⚠️ Clerk is not initialized! Please add your VITE_CLERK_PUBLISHABLE_KEY to the .env file')
+      console.error('Clerk not initialized. Check your .env file has a valid VITE_CLERK_PUBLISHABLE_KEY')
+      return
+    }
 
     const { error } = await signIn.sso({
       strategy: 'oauth_google',
